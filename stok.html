@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman informasi stok bahan ajar SITTA UT yang ditampilkan dinamis dari data dummy JavaScript.">
+  <title>Informasi Bahan Ajar | SITTA Bahan Ajar UT</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .stock-form-card {
+      border-top: 6px solid #0b4ea2;
+    }
+  </style>
+</head>
+<body data-page="stok">
+  <a class="skip-link" href="#kontenUtama">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigasi utama">
+      <a class="brand" href="dashboard.html" aria-label="Beranda SITTA">
+        <div class="brand-mark">UT</div>
+        <div class="brand-text">
+          <strong>SITTA</strong>
+          <span data-user-role>UPBJJ-UT</span>
+        </div>
+      </a>
+
+      <button class="btn btn-outline mobile-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menuUtama">Menu</button>
+
+      <ul class="nav-links" id="menuUtama" data-nav-menu>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a class="active" href="stok.html">Informasi Bahan Ajar</a></li>
+        <li><a href="tracking.html">Tracking Pengiriman</a></li>
+        <li class="dropdown">
+          <button class="nav-button" type="button">Laporan ▾</button>
+          <div class="dropdown-menu" aria-label="Submenu laporan">
+            <a href="dashboard.html#monitoring">Monitoring Progress DO</a>
+            <a href="dashboard.html#rekap">Rekap Bahan Ajar</a>
+          </div>
+        </li>
+        <li><a href="dashboard.html#histori">Histori Transaksi</a></li>
+        <li><button class="nav-button" type="button" data-logout>Keluar</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="kontenUtama" class="page-main">
+    <div class="container">
+      <section class="hero-card" aria-labelledby="judulStok">
+        <span class="badge badge-warning" style="letter-spacing: 0.08em;">INFORMASI BAHAN AJAR</span>
+        <h1 id="judulStok">Stok Bahan Ajar</h1>
+        <p>Data stok ditampilkan secara dinamis dari variabel <code>dataBahanAjar</code> pada file <code>js/data.js</code>. Form di bawah dapat menambahkan baris stok baru menggunakan JavaScript DOM.</p>
+      </section>
+
+      <section class="grid grid-4" aria-label="Ringkasan stok bahan ajar">
+        <article class="card summary-card">
+          <span>Total Jenis</span>
+          <strong id="stockTotalJenis">0</strong>
+          <p>Jumlah item bahan ajar.</p>
+        </article>
+        <article class="card summary-card">
+          <span>Total Eksemplar</span>
+          <strong id="stockTotalEksemplar">0</strong>
+          <p>Total stok keseluruhan.</p>
+        </article>
+        <article class="card summary-card">
+          <span>Stok Terendah</span>
+          <strong id="stockTerendah">0</strong>
+          <p>Nilai stok paling kecil.</p>
+        </article>
+        <article class="card summary-card">
+          <span>Data Tampil</span>
+          <strong id="stockFiltered">0</strong>
+          <p>Sesuai filter pencarian.</p>
+        </article>
+      </section>
+
+      <section class="site-section" aria-labelledby="judulKatalog">
+        <div class="section-title">
+          <div>
+            <h2 id="judulKatalog">Katalog Bahan Ajar</h2>
+            <p>Tampilan kartu sebagai variasi UI dari data tabel.</p>
+          </div>
+        </div>
+        <div class="grid grid-3" id="stockCards"></div>
+      </section>
+
+      <section class="site-section" aria-labelledby="judulTabelStok">
+        <div class="toolbar">
+          <div>
+            <h2 id="judulTabelStok">Tabel Stok Bahan Ajar</h2>
+            <p class="help-text">Gunakan tombol +10, -10, dan Hapus untuk melihat manipulasi data tabel.</p>
+          </div>
+          <div class="form-group">
+            <label for="searchStock">Cari bahan ajar</label>
+            <input type="search" id="searchStock" placeholder="Cari kode/nama/lokasi/stok">
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table aria-label="Tabel informasi stok bahan ajar">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Cover</th>
+                <th>Kode Lokasi</th>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Jenis</th>
+                <th>Edisi</th>
+                <th>Stok</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="stockBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="site-section" aria-labelledby="judulTambahStok">
+        <article class="card card-body stock-form-card">
+          <div class="section-title">
+            <div>
+              <h2 id="judulTambahStok">Tambah Baris Stok Baru</h2>
+              <p>Validasi form akan berjalan sebelum data ditambahkan ke tabel.</p>
+            </div>
+          </div>
+
+          <form id="stockForm" novalidate>
+            <div class="grid grid-3">
+              <div class="form-group">
+                <label for="kodeLokasi">Kode Lokasi</label>
+                <input type="text" id="kodeLokasi" placeholder="Contoh: 0BGR01" required>
+              </div>
+              <div class="form-group">
+                <label for="kodeBarang">Kode Barang</label>
+                <input type="text" id="kodeBarang" placeholder="Contoh: EKMA4111" required>
+              </div>
+              <div class="form-group">
+                <label for="namaBarang">Nama Barang</label>
+                <input type="text" id="namaBarang" placeholder="Nama bahan ajar" required>
+              </div>
+              <div class="form-group">
+                <label for="jenisBarang">Jenis Barang</label>
+                <select id="jenisBarang" required>
+                  <option value="">Pilih jenis</option>
+                  <option value="BMP">BMP</option>
+                  <option value="Non-BMP">Non-BMP</option>
+                  <option value="Digital">Digital</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="edisi">Edisi</label>
+                <input type="number" id="edisi" min="1" placeholder="Contoh: 1" required>
+              </div>
+              <div class="form-group">
+                <label for="stok">Stok</label>
+                <input type="number" id="stok" min="0" placeholder="Contoh: 100" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cover">Path/URL Cover (opsional)</label>
+              <input type="text" id="cover" placeholder="Contoh: img/pengantar_komunikasi.jpg">
+              <p class="help-text">Jika dikosongkan, sistem memakai cover default.</p>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Tambah Stok</button>
+              <button class="btn btn-outline" type="reset">Reset Form</button>
+            </div>
+          </form>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2026 Praktik STSI4209 - Informasi Stok Bahan Ajar SITTA.</small>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalFeedback" role="alertdialog" aria-modal="true" aria-hidden="true" aria-labelledby="feedbackTitle" aria-describedby="feedbackMessage">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="feedbackTitle">Informasi</h2>
+        <button class="modal-close" type="button" data-close-modal aria-label="Tutup modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="feedbackMessage"></p>
+        <button class="btn btn-primary" type="button" data-close-modal>Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

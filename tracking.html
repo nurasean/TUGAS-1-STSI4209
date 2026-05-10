@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman tracking pengiriman bahan ajar SITTA UT berdasarkan nomor Delivery Order.">
+  <title>Tracking Pengiriman | SITTA Bahan Ajar UT</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .tracking-tip {
+      background: rgba(246, 195, 67, 0.18);
+      border: 1px dashed rgba(246, 195, 67, 0.85);
+    }
+  </style>
+</head>
+<body data-page="tracking">
+  <a class="skip-link" href="#kontenUtama">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigasi utama">
+      <a class="brand" href="dashboard.html" aria-label="Beranda SITTA">
+        <div class="brand-mark">UT</div>
+        <div class="brand-text">
+          <strong>SITTA</strong>
+          <span data-user-role>UPBJJ-UT</span>
+        </div>
+      </a>
+
+      <button class="btn btn-outline mobile-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menuUtama">Menu</button>
+
+      <ul class="nav-links" id="menuUtama" data-nav-menu>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="stok.html">Informasi Bahan Ajar</a></li>
+        <li><a class="active" href="tracking.html">Tracking Pengiriman</a></li>
+        <li class="dropdown">
+          <button class="nav-button" type="button">Laporan ▾</button>
+          <div class="dropdown-menu" aria-label="Submenu laporan">
+            <a href="dashboard.html#monitoring">Monitoring Progress DO</a>
+            <a href="dashboard.html#rekap">Rekap Bahan Ajar</a>
+          </div>
+        </li>
+        <li><a href="dashboard.html#histori">Histori Transaksi</a></li>
+        <li><button class="nav-button" type="button" data-logout>Keluar</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="kontenUtama" class="page-main">
+    <div class="container">
+      <section class="hero-card" aria-labelledby="judulTracking">
+        <span class="badge badge-warning" style="letter-spacing: 0.08em;">TRACKING PENGIRIMAN</span>
+        <h1 id="judulTracking">Cek Status Delivery Order</h1>
+        <p>Masukkan Nomor Delivery Order untuk menampilkan nama mahasiswa, status pengiriman, detail ekspedisi, tanggal kirim, jenis paket, total pembayaran, dan timeline perjalanan paket.</p>
+      </section>
+
+      <section class="card search-panel" aria-labelledby="judulPencarian">
+        <div class="section-title">
+          <div>
+            <h2 id="judulPencarian">Form Pencarian</h2>
+            <p>Contoh nomor DO: <strong>2023001234</strong> atau <strong>2023005678</strong>.</p>
+          </div>
+          <span class="badge tracking-tip">Validasi form aktif</span>
+        </div>
+
+        <form id="trackingForm" novalidate>
+          <div class="form-group">
+            <label for="nomorDO">Nomor Delivery Order</label>
+            <input type="text" id="nomorDO" name="nomorDO" list="doOptions" placeholder="Masukkan Nomor DO" required>
+            <datalist id="doOptions"></datalist>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Cari</button>
+            <a class="btn btn-outline" href="dashboard.html">Kembali ke Dashboard</a>
+          </div>
+        </form>
+      </section>
+
+      <section class="card search-panel" id="trackingEmpty" aria-label="Informasi awal tracking">
+        <h2>Belum ada data ditampilkan</h2>
+        <p class="help-text">Data pengiriman akan muncul setelah tombol <strong>Cari</strong> ditekan.</p>
+      </section>
+
+      <section class="tracking-result" id="trackingResult" aria-labelledby="judulHasilTracking">
+        <div class="result-header">
+          <article class="delivery-card" aria-label="Ringkasan pengiriman">
+            <span class="badge badge-warning">Nomor DO <span id="trackingDO">-</span></span>
+            <h2 id="trackingNama">Nama Mahasiswa</h2>
+            <p>Status: <strong id="trackingStatus">-</strong></p>
+            <div class="progress-box" aria-label="Progress pengiriman">
+              <div class="progress-label">
+                <span>Progress Pengiriman</span>
+                <span id="trackingProgressText">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="trackingProgressFill"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card detail-list" aria-labelledby="judulHasilTracking">
+            <h2 id="judulHasilTracking">Detail Ekspedisi</h2>
+            <dl>
+              <dt>Ekspedisi</dt>
+              <dd id="trackingEkspedisi">-</dd>
+              <dt>Tanggal Kirim</dt>
+              <dd id="trackingTanggal">-</dd>
+              <dt>Jenis Paket</dt>
+              <dd id="trackingPaket">-</dd>
+              <dt>Total Bayar</dt>
+              <dd id="trackingTotal">-</dd>
+            </dl>
+          </article>
+        </div>
+
+        <article class="card card-body site-section" aria-labelledby="judulTimeline">
+          <h2 id="judulTimeline">Perjalanan Paket</h2>
+          <ol class="timeline" id="trackingTimeline"></ol>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2026 Praktik STSI4209 - Tracking Pengiriman SITTA.</small>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalFeedback" role="alertdialog" aria-modal="true" aria-hidden="true" aria-labelledby="feedbackTitle" aria-describedby="feedbackMessage">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="feedbackTitle">Informasi</h2>
+        <button class="modal-close" type="button" data-close-modal aria-label="Tutup modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="feedbackMessage"></p>
+        <button class="btn btn-primary" type="button" data-close-modal>Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

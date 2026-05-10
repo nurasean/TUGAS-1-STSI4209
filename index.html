@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman login aplikasi pemesanan bahan ajar SITTA Universitas Terbuka.">
+  <title>Login | SITTA Bahan Ajar UT</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .login-note {
+      border-left: 4px solid #f6c343;
+      padding-left: 12px;
+    }
+  </style>
+</head>
+<body class="auth-page" data-page="login">
+  <a class="skip-link" href="#kontenUtama">Lewati ke konten utama</a>
+
+  <main id="kontenUtama" class="auth-shell" aria-label="Halaman login SITTA">
+    <section class="auth-hero" aria-labelledby="judulAplikasi">
+      <div class="brand" aria-label="Identitas aplikasi">
+        <div class="brand-mark">UT</div>
+        <div class="brand-text">
+          <strong>SITTA</strong>
+          <span>Sistem Informasi Tiras dan Transaksi Bahan Ajar</span>
+        </div>
+      </div>
+
+      <div class="auth-copy">
+        <span class="badge badge-warning" style="letter-spacing: 0.08em;">TUGAS PRAKTIK 1</span>
+        <h1 id="judulAplikasi">Pemesanan Bahan Ajar Universitas Terbuka</h1>
+        <p class="login-note">
+          Aplikasi front-end sederhana untuk login, dashboard, tracking pengiriman, dan informasi stok bahan ajar.
+        </p>
+      </div>
+    </section>
+
+    <section class="auth-panel" aria-labelledby="judulLogin">
+      <span class="badge">Akses UT-Daerah</span>
+      <h2 id="judulLogin">Selamat Datang</h2>
+      <p>Masuk menggunakan email dan password yang tersedia pada data dummy.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="contoh: rina@ut.ac.id" autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-row">
+            <input type="password" id="password" name="password" placeholder="Masukkan password" autocomplete="current-password" required>
+            <button class="btn btn-outline btn-small" type="button" id="togglePassword">Lihat</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+
+      <div class="login-links" aria-label="Aksi login tambahan">
+        <button class="link-button" type="button" data-open-modal="modalLupa">Lupa Password?</button>
+        <button class="link-button" type="button" data-open-modal="modalDaftar">Daftar akun demo</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalLupa" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="judulLupa">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="judulLupa">Lupa Password</h2>
+        <button class="modal-close" type="button" data-close-modal aria-label="Tutup modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Masukkan email UT. Pada demo ini sistem hanya mengecek apakah email ada di data dummy.</p>
+        <form id="forgotForm" novalidate>
+          <div class="form-group">
+            <label for="forgotEmail">Email UT</label>
+            <input type="email" id="forgotEmail" placeholder="nama@ut.ac.id" required>
+          </div>
+          <button class="btn btn-primary" type="submit">Cek Email</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalDaftar" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="judulDaftar">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="judulDaftar">Daftar Akun Demo</h2>
+        <button class="modal-close" type="button" data-close-modal aria-label="Tutup modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Form ini mensimulasikan pendaftaran. Data hanya tersimpan sementara saat halaman belum di-refresh.</p>
+        <form id="registerForm" novalidate>
+          <div class="form-group">
+            <label for="registerName">Nama</label>
+            <input type="text" id="registerName" placeholder="Nama lengkap" required>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" placeholder="nama@ut.ac.id" required>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <input type="password" id="registerPassword" placeholder="Minimal 6 karakter" required>
+          </div>
+          <div class="form-group">
+            <label for="registerLocation">Lokasi</label>
+            <input type="text" id="registerLocation" placeholder="Contoh: UPBJJ Surabaya" required>
+          </div>
+          <button class="btn btn-primary" type="submit">Daftar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalFeedback" role="alertdialog" aria-modal="true" aria-hidden="true" aria-labelledby="feedbackTitle" aria-describedby="feedbackMessage">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="feedbackTitle">Informasi</h2>
+        <button class="modal-close" type="button" data-close-modal aria-label="Tutup modal">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="feedbackMessage"></p>
+        <button class="btn btn-primary" type="button" data-close-modal>Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

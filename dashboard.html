@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard menu aplikasi SITTA untuk pemesanan bahan ajar UT.">
+  <title>Dashboard | SITTA Bahan Ajar UT</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .dashboard-highlight {
+      border: 1px solid rgba(246, 195, 67, 0.55);
+      background: rgba(255, 255, 255, 0.96);
+    }
+  </style>
+</head>
+<body data-page="dashboard">
+  <a class="skip-link" href="#kontenUtama">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigasi utama">
+      <a class="brand" href="dashboard.html" aria-label="Beranda SITTA">
+        <div class="brand-mark">UT</div>
+        <div class="brand-text">
+          <strong>SITTA</strong>
+          <span data-user-role>UPBJJ-UT</span>
+        </div>
+      </a>
+
+      <button class="btn btn-outline mobile-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menuUtama">Menu</button>
+
+      <ul class="nav-links" id="menuUtama" data-nav-menu>
+        <li><a class="active" href="dashboard.html">Dashboard</a></li>
+        <li><a href="stok.html">Informasi Bahan Ajar</a></li>
+        <li><a href="tracking.html">Tracking Pengiriman</a></li>
+        <li class="dropdown">
+          <button class="nav-button" type="button">Laporan ▾</button>
+          <div class="dropdown-menu" aria-label="Submenu laporan">
+            <a href="#monitoring">Monitoring Progress DO</a>
+            <a href="#rekap">Rekap Bahan Ajar</a>
+          </div>
+        </li>
+        <li><a href="#histori">Histori Transaksi</a></li>
+        <li><button class="nav-button" type="button" data-logout>Keluar</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="kontenUtama" class="page-main">
+    <div class="container">
+      <section class="hero-card" aria-labelledby="judulDashboard">
+        <span class="badge badge-warning" style="letter-spacing: 0.08em;">DASHBOARD SITTA</span>
+        <h1 id="judulDashboard">Dashboard Aplikasi SITTA</h1>
+        <p id="greetingText">Selamat datang.</p>
+        <p id="clockText" class="help-text"></p>
+        <div class="hero-actions">
+          <a class="btn btn-secondary" href="stok.html">Lihat Informasi Bahan Ajar</a>
+          <a class="btn btn-outline" href="tracking.html">Cek Tracking Pengiriman</a>
+        </div>
+      </section>
+
+      <section class="grid grid-4" aria-label="Ringkasan dashboard">
+        <article class="card summary-card">
+          <span>Total Jenis Bahan Ajar</span>
+          <strong id="summaryBahan">0</strong>
+          <p>Data berasal dari <code>dataBahanAjar</code>.</p>
+        </article>
+        <article class="card summary-card">
+          <span>Total Stok</span>
+          <strong id="summaryStok">0</strong>
+          <p>Akumulasi stok semua bahan ajar.</p>
+        </article>
+        <article class="card summary-card">
+          <span>Delivery Order</span>
+          <strong id="summaryDO">0</strong>
+          <p>Data simulasi pengiriman.</p>
+        </article>
+        <article class="card summary-card dashboard-highlight">
+          <span>Stok Perlu Dipantau</span>
+          <strong id="summaryMinim">0</strong>
+          <p>Stok di bawah 250 eksemplar.</p>
+        </article>
+      </section>
+
+      <section class="site-section" aria-labelledby="judulMenu">
+        <div class="section-title">
+          <div>
+            <h2 id="judulMenu">Menu Utama</h2>
+            <p>Pilih menu sesuai alur kerja pemesanan dan distribusi bahan ajar.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-4">
+          <a class="card menu-card" href="stok.html">
+            <span class="menu-icon">📚</span>
+            <h3>Informasi Bahan Ajar</h3>
+            <p>Menampilkan stok dari data dummy dan menambah baris stok baru.</p>
+          </a>
+          <a class="card menu-card" href="tracking.html">
+            <span class="menu-icon">🚚</span>
+            <h3>Tracking Pengiriman</h3>
+            <p>Mencari Nomor Delivery Order dan melihat perjalanan paket.</p>
+          </a>
+          <a class="card menu-card" href="#monitoring">
+            <span class="menu-icon">📈</span>
+            <h3>Monitoring Progress DO</h3>
+            <p>Ringkasan status Delivery Order yang sedang diproses.</p>
+          </a>
+          <a class="card menu-card" href="#histori">
+            <span class="menu-icon">🧾</span>
+            <h3>Histori Transaksi</h3>
+            <p>Daftar transaksi bahan ajar berdasarkan data tracking.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="site-section" id="monitoring" aria-labelledby="judulMonitoring">
+        <div class="section-title">
+          <div>
+            <h2 id="judulMonitoring">Monitoring Progress DO Bahan Ajar</h2>
+            <p>Bagian ini dimanipulasi dari variabel <code>dataTracking</code> menggunakan JavaScript DOM.</p>
+          </div>
+        </div>
+        <div class="grid grid-2" id="monitoringList"></div>
+      </section>
+
+      <section class="site-section" id="rekap" aria-labelledby="judulRekap">
+        <div class="section-title">
+          <div>
+            <h2 id="judulRekap">Rekap Bahan Ajar</h2>
+            <p>Rekap sederhana untuk menunjukkan laporan stok bahan ajar.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Tabel rekap bahan ajar">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Jenis</th>
+                <th>Edisi</th>
+                <th>Stok</th>
+              </tr>
+            </thead>
+            <tbody id="rekapBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="site-section" id="histori" aria-labelledby="judulHistori">
+        <div class="section-title">
+          <div>
+            <h2 id="judulHistori">Histori Transaksi Bahan Ajar</h2>
+            <p>Contoh histori transaksi dari data dummy pengiriman.</p>
+          </div>
+        </div>
+        <div class="grid grid-2" id="historyList"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; 2026 Praktik STSI4209 - Front-End SITTA. Dibuat untuk latihan HTML, CSS, dan JavaScript DOM.</small>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
